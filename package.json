@@ -1,0 +1,12 @@
+{
+  "name": "iwlist",
+  "author": {
+    "name": "max ogden",
+    "email": "max@maxogden.com"
+  },
+  "description": "parses iwlist output. scan, join and disconnect from wireless networks",
+  "version": "0.0.1",
+  "engines": {
+    "node": "v0.4.x"
+  }
+}
