@@ -60,7 +60,7 @@ IW.prototype.scan = function (cb) {
             var x = a['signal']; var y = b['signal'];
             return ((x < y) ? -1 : ((x > y) ? 1 : 0));
         }).reverse()
-        else cb(null, ap);
+        cb(null, ap);
     });
     
     var code;
