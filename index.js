@@ -55,7 +55,11 @@ IW.prototype.scan = function (cb) {
     ps.stderr.on('data', function (buf) { stderr += buf });
     
     ps.on('close', function () {
-        if (code !== 0) cb('code = ' + code + '\n', stderr);
+        if (code !== 0) return cb('code = ' + code + '\n', stderr);
+        ap.sort(function(a, b) {
+            var x = a['signal']; var y = b['signal'];
+            return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+        }).reverse()
         else cb(null, ap);
     });
     
@@ -79,8 +83,11 @@ IW.prototype.scan = function (cb) {
         if (m = /^\s+ESSID:"(.+)"/.exec(line)) {
             current.essid = m[1];
         }
-        else if (m = /^\s+Encryption key:(.+)/.exec(line)) {
+        if (m = /^\s+Encryption key:(.+)/.exec(line)) {
             current.encrypted = m[1] !== 'off';
+        }
+        if (m = /Signal level=(.+?)\//.exec(line)) {
+          current.signal = +m[1]
         }
     }
 };

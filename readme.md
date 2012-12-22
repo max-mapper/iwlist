@@ -18,7 +18,7 @@ var iw = require('iwlist')('wlan0')
 
 ## scan(callback)
 
-returns list of nearby wireless networks
+returns list of nearby wireless networks sorted by signal strength (high to low)
 
 ## connect(essid, callback)
 
