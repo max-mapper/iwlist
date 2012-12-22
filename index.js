@@ -23,7 +23,7 @@ IW.prototype.associated = function(cb) {
         var status = stdout.match(/Access Point: (.*)\n/)[1]
         if (status.match(/Not-Associated/)) return cb(false, false)
         cb(false, true)
-    }))
+    })
 }
 
 IW.prototype.online = function(cb) {
@@ -89,11 +89,13 @@ IW.prototype.connect = function (ap, cb) {
     var self = this;
     if (typeof ap === 'string') ap = { essid : ap };
     
-    spawn('iwconfig', [ self.iface, 'essid', ap.essid ]);
+    exec('iwconfig' + [ self.iface, 'essid', ap.essid ].join(''), function(err, stdout, stderr) {
+      // console.log('iwconfig' + [ self.iface, 'essid', ap.essid ].join(''), err, stdout, stderr)
+    })
     var iv = setInterval(function (err, stdout, stderr) {
         exec('iwconfig ' + self.iface, function (err, stdout, stderr) {
             var m;
-            if (m = /ESSID:"(.+)"/.exec(stdout)) {
+            if (m = /ESSID:"(.+?)"/.exec(stdout)) {
                 if (m[1] === ap.essid) {
                     clearInterval(iv);
                     clearTimeout(to);
