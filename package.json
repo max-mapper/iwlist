@@ -6,7 +6,7 @@
   },
   "repository": "git://github.com/maxogden/iwlist.git",
   "description": "parses iwlist output. scan, join and disconnect from wireless networks",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "engines": {
     "node": ">=v0.6.x"
   }
