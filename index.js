@@ -3,6 +3,8 @@
 var spawn = require('child_process').spawn;
 var exec = require('child_process').exec;
 var EventEmitter = require('events').EventEmitter;
+var http = require('http')
+var dns = require('dns')
 
 module.exports = function (iface) {
     return new IW(iface);
@@ -14,6 +16,22 @@ function IW (iface) {
 }
 
 IW.prototype = new EventEmitter;
+
+IW.prototype.associated = function(cb) {
+    exec('iwconfig ' + this.iface, function(err, stdout, stderr) {
+        if (err) return cb(err)
+        var status = stdout.match(/Access Point: (.*)\n/)[1]
+        if (status.match(/Not-Associated/)) return cb(false, false)
+        cb(false, true)
+    }))
+}
+
+IW.prototype.online = function(cb) {
+  dns.lookup('www.google.com', function(err, addresses) {
+    if (err) return cb(err)
+    return cb(false)
+  })
+}
 
 IW.prototype.disconnect = function() {
     return spawn('iwconfig', [ this.iface, 'essid', 'off' ]);

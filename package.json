@@ -4,9 +4,10 @@
     "name": "max ogden",
     "email": "max@maxogden.com"
   },
+  "repository": "git://github.com/maxogden/iwlist.git",
   "description": "parses iwlist output. scan, join and disconnect from wireless networks",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "engines": {
-    "node": "v0.4.x"
+    "node": ">=v0.6.x"
   }
 }
