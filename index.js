@@ -94,10 +94,14 @@ IW.prototype.scan = function (cb) {
 
 IW.prototype.connect = function (ap, cb) {
     var self = this;
+    var returned = false
     if (typeof ap === 'string') ap = { essid : ap };
     
-    exec('iwconfig' + [ self.iface, 'essid', ap.essid ].join(''), function(err, stdout, stderr) {
-      // console.log('iwconfig' + [ self.iface, 'essid', ap.essid ].join(''), err, stdout, stderr)
+    exec('iwconfig ' + [ self.iface, 'essid', ap.essid ].join(' '), function(err, stdout, stderr) {
+      if (stderr !== '') {
+        returned = true
+        return cb(stderr)
+      }
     })
     var iv = setInterval(function (err, stdout, stderr) {
         exec('iwconfig ' + self.iface, function (err, stdout, stderr) {
@@ -106,7 +110,7 @@ IW.prototype.connect = function (ap, cb) {
                 if (m[1] === ap.essid) {
                     clearInterval(iv);
                     clearTimeout(to);
-                    cb(null);
+                    if (!returned) cb(null);
                 }
             }
         });
@@ -114,6 +118,6 @@ IW.prototype.connect = function (ap, cb) {
     
     var to = setTimeout(function () {
         clearInterval(iv);
-        cb('connection to ' + ap + ' timed out');
+        if (!returned) cb('connection to ' + ap + ' timed out');
     }, 20 * 1000);
 };
