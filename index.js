@@ -20,9 +20,13 @@ IW.prototype = new EventEmitter;
 IW.prototype.associated = function(cb) {
     exec('iwconfig ' + this.iface, function(err, stdout, stderr) {
         if (err) return cb(err)
-        var status = stdout.match(/Access Point: (.*)\n/)[1]
-        if (status.match(/Not-Associated/)) return cb(false, false)
-        cb(false, true)
+        try {
+            var status = stdout.match(/Access Point: (.*)\n/)[1]
+            if (status.match(/Not-Associated/)) return cb(false, false)
+            cb(false, true)
+        } catch(e) {
+            cb(e)
+        }
     })
 }
 
