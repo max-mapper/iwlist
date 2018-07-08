@@ -1,3 +1,5 @@
+Fork from https://github.com/maxogden/iwlist
+
 # iwlist
 
 parses iwlist output on linux computers. tested on raspberry pi running raspbian (debian)
@@ -7,7 +9,7 @@ parses iwlist output on linux computers. tested on raspberry pi running raspbian
 ## install
 
 ```javascript
-npm install iwlist
+npm install TheThingBox/iwlist
 ```
 
 ## instantiate
